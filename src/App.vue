@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <PhotoCard v-for="photo in photos" :key="photo.id" :photo="photo"></PhotoCard>
+    <div class="gallery">
+      <PhotoCard v-for="photo in photos" :key="photo.id" :photo="photo"></PhotoCard>
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+* {
+  box-sizing: border-box;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,5 +41,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

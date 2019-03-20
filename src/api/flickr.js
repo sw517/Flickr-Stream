@@ -5,7 +5,7 @@ const apiKey = 'f5a29b2836a216f4ae14e88ec762fc3d';
 export default {
 
     getRecent() {
-        return axios.get('https://www.flickr.com/services/rest', {
+        return axios.get('https://api.flickr.com/services/rest', {
             params: {
               format: 'json',
               method: 'flickr.photos.getRecent',
