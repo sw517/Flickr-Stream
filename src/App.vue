@@ -41,9 +41,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  padding: 0 1rem;
 }
 .gallery {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 -1rem;
 }
 </style>
