@@ -5,7 +5,7 @@
             <div class="modal__image-container">
                 <img :src="imgSrc" alt="photo.title" class="modal__image">
             </div>
-            <a :href="imgSrc" class="modal__view-link">View Original Image</a>
+            <a :href="imgSrc" target="_blank" class="modal__view-link">View Original Image</a>
             <div class="modal__details">
                 <div class="modal__title">{{ photo.title }}</div>
             </div>
@@ -31,6 +31,7 @@ export default {
                     farm: '',
                     server: '',
                     id: '',
+                    originalformat: 'jpg',
                 };
             },
         },
@@ -39,7 +40,9 @@ export default {
         imgSrc() {
             return `https://farm${this.photo.farm}.staticflickr.com/${
                 this.photo.server
-            }/${this.photo.id}_${this.photo.secret}.jpg`;
+            }/${this.photo.id}_${this.photo.secret}.${
+                this.photo.originalformat
+            }`;
         },
     },
 };

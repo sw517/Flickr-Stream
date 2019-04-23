@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h2>Flickr Stream</h2>
-    <searchInput v-on:submitSearchRequest="submitSearchRequest" />
+    <searchInput v-on:submitSearchRequest="getSearchRequest" />
     <div class="gallery">
       <PhotoCard v-for="photo in photos" :key="photo.id" v-on:onPhotoClick="setModalImage" :photo="photo"></PhotoCard>
     </div>
@@ -37,11 +37,15 @@ export default {
         });
     },
     methods: {
-        submitSearchRequest(value) {
-            flickr.sendRequest('search', { tags: value }).then(response => {
-                const responseString = response.data.photos.photo;
-                this.photos = responseString;
-            });
+        getSearchRequest(value) {
+            flickr
+                .sendRequest('search', {
+                    tags: value,
+                })
+                .then(response => {
+                    const responseString = response.data.photos.photo;
+                    this.photos = responseString;
+                });
         },
         setModalImage(photo) {
             this.modalPhoto = photo;

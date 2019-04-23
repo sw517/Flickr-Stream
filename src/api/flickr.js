@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiKey = 'f5a29b2836a216f4ae14e88ec762fc3d';
+const apiKey = '';
 
 export default {
     sendRequest(method, options = {}) {
@@ -14,6 +14,7 @@ export default {
                         api_key: apiKey,
                         nojsoncallback: 1,
                         per_page: 25,
+                        extras: 'original_format',
                     },
                     ...options,
                 },

@@ -3,7 +3,7 @@
         <a @click.prevent="onPhotoClick" class="photo-card__inner">
             <i @click="toggleInfo" class="photo-card__info-icon">i</i>
             <div class="photo-card__img" :style="imgStyles"></div>
-            <div v-if="photo.title" class="photo-card__title"><span>{{ photo.title }}</span></div>
+            <div class="photo-card__title"><span>{{ photo.title || 'Untitled' }}</span></div>
         </a>
     </div>
 </template>
@@ -21,6 +21,7 @@ export default {
                     farm: '',
                     server: '',
                     id: '',
+                    originalformat: 'jpg',
                 };
             },
         },
@@ -34,7 +35,9 @@ export default {
         imgSrc() {
             return `https://farm${this.photo.farm}.staticflickr.com/${
                 this.photo.server
-            }/${this.photo.id}_${this.photo.secret}.jpg`;
+            }/${this.photo.id}_${this.photo.secret}.${
+                this.photo.originalformat
+            }`;
         },
         imgStyles() {
             return {
@@ -81,8 +84,13 @@ export default {
         cursor: pointer;
 
         @media (pointer: fine) {
-            &:hover .photo-card__title {
-                transform: translateY(0);
+            &:hover {
+                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+                transition: box-shadow ease 0.3s;
+
+                .photo-card__title {
+                    transform: translateY(0);
+                }
             }
         }
     }
