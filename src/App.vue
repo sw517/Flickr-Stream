@@ -3,14 +3,16 @@
     <h2>Flickr Stream</h2>
     <searchInput v-on:submitSearchRequest="submitSearchRequest" />
     <div class="gallery">
-      <PhotoCard v-for="photo in photos" :key="photo.id" :photo="photo"></PhotoCard>
+      <PhotoCard v-for="photo in photos" :key="photo.id" v-on:onPhotoClick="setModalImage" :photo="photo"></PhotoCard>
     </div>
+	<ImageModal v-on:onModalClose="toggleModal" :isActive="modalIsActive" :photo="modalPhoto" />
   </div>
 </template>
 
 <script>
 import PhotoCard from './components/PhotoCard.vue';
 import SearchInput from './components/SearchInput.vue';
+import ImageModal from './components/ImageModal.vue';
 import flickr from './api/flickr.js';
 
 export default {
@@ -18,11 +20,14 @@ export default {
     components: {
         PhotoCard,
         SearchInput,
+        ImageModal,
     },
     data() {
         return {
             photos: [],
+            modalPhoto: {},
             searchValue: '',
+            modalIsActive: false,
         };
     },
     mounted() {
@@ -37,6 +42,13 @@ export default {
                 const responseString = response.data.photos.photo;
                 this.photos = responseString;
             });
+        },
+        setModalImage(photo) {
+            this.modalPhoto = photo;
+            this.toggleModal();
+        },
+        toggleModal() {
+            this.modalIsActive = !this.modalIsActive;
         },
     },
 };
@@ -59,5 +71,14 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin: 0 -1rem;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 </style>

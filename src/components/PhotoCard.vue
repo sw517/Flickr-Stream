@@ -1,6 +1,7 @@
 <template>
-    <div class="photo-card">
-        <a class="photo-card__inner">
+    <div class="photo-card" :class="[showInfo ? 'show-info' : 'hide-info']">
+        <a @click.prevent="onPhotoClick" class="photo-card__inner">
+            <i @click="toggleInfo" class="photo-card__info-icon">i</i>
             <div class="photo-card__img" :style="imgStyles"></div>
             <div v-if="photo.title" class="photo-card__title"><span>{{ photo.title }}</span></div>
         </a>
@@ -24,6 +25,11 @@ export default {
             },
         },
     },
+    data() {
+        return {
+            showInfo: false,
+        };
+    },
     computed: {
         imgSrc() {
             return `https://farm${this.photo.farm}.staticflickr.com/${
@@ -36,6 +42,14 @@ export default {
             };
         },
     },
+    methods: {
+        toggleInfo() {
+            this.showInfo = !this.showInfo;
+        },
+        onPhotoClick() {
+            this.$emit('onPhotoClick', this.photo);
+        },
+    },
 };
 </script>
 
@@ -43,6 +57,10 @@ export default {
 .photo-card {
     padding: 0.5rem;
     width: 100%;
+
+    &.show-info .photo-card__title {
+        transform: translateY(0);
+    }
 
     @media (min-width: 768px) {
         flex-basis: calc(100% / 3);
@@ -58,11 +76,32 @@ export default {
         position: relative;
         display: block;
         text-decoration: none;
+        border-radius: 0.25rem;
         overflow: hidden;
         cursor: pointer;
 
-        &:hover .photo-card__title {
-            transform: translateY(0);
+        @media (pointer: fine) {
+            &:hover .photo-card__title {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    &__info-icon {
+        display: none;
+
+        @media (pointer: coarse) {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 100%;
         }
     }
 

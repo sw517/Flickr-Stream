@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input v-on:keydown.enter="onSearchInputSubmit" v-model="searchValue" class="search" placeholder="Search images from flickr" type="text">
+        <input v-on:keydown.enter="onSearchInputSubmit" v-model="searchValue" class="search" placeholder="Search flickr images" type="text">
         <button @click="onSearchInputSubmit" class="btn">Go</button>
     </div>
 </template>
