@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: "PhotoCard",
+    name: 'PhotoCard',
     props: {
         photo: {
             type: Object,
@@ -26,7 +26,9 @@ export default {
     },
     computed: {
         imgSrc() {
-            return `https://farm${this.photo.farm}.staticflickr.com/${this.photo.server}/${this.photo.id}_${this.photo.secret}.jpg`;
+            return `https://farm${this.photo.farm}.staticflickr.com/${
+                this.photo.server
+            }/${this.photo.id}_${this.photo.secret}.jpg`;
         },
         imgStyles() {
             return {
@@ -38,11 +40,19 @@ export default {
 </script>
 
 <style lang="scss">
-
 .photo-card {
-    flex-basis: 20%;
-    max-width: 20%;
-    padding: .5rem;
+    padding: 0.5rem;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        flex-basis: calc(100% / 3);
+        max-width: calc(100% / 3);
+    }
+
+    @media (min-width: 1024px) {
+        flex-basis: 20%;
+        max-width: 20%;
+    }
 
     &__inner {
         position: relative;
@@ -58,8 +68,10 @@ export default {
 
     &__img {
         height: 0;
+        background-color: #f3f3f3;
         padding-bottom: 75%;
         background-position: 50%;
+        background-repeat: no-repeat;
     }
 
     &__title {
@@ -68,11 +80,18 @@ export default {
         left: 0;
         right: 0;
         transform: translateY(100%);
-        transition: transform ease .6s;
-        background: rgba(255, 255, 255, .8);
+        transition: transform ease 0.6s;
+        background: rgba(255, 255, 255, 0.8);
         color: #000;
-        padding: 20px 10px;
+        padding: 0.75rem;
         word-break: break-all;
+
+        span {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 }
 </style>
