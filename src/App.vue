@@ -5,7 +5,7 @@
     <div class="gallery">
       <PhotoCard v-for="photo in photos" :key="photo.id" v-on:onPhotoClick="setModalImage" :photo="photo"></PhotoCard>
     </div>
-	<ImageModal v-on:onModalClose="toggleModal" :isActive="modalIsActive" :photo="modalPhoto" />
+	<ImageModal v-on:onModalClose="toggleModal" :isActive="modalIsActive" :photo="modalPhoto" :photoUrl="modalPhotoUrl" />
   </div>
 </template>
 
@@ -26,14 +26,15 @@ export default {
         return {
             photos: [],
             modalPhoto: {},
-            searchValue: '',
+            modalPhotoUrl: '',
             modalIsActive: false,
+            searchValue: '',
         };
     },
     mounted() {
         flickr.sendRequest('getRecent').then(response => {
-            const responseString = response.data.photos.photo;
-            this.photos = responseString;
+            const responseObject = response.data.photos.photo;
+            this.photos = responseObject;
         });
     },
     methods: {
@@ -43,12 +44,28 @@ export default {
                     tags: value,
                 })
                 .then(response => {
-                    const responseString = response.data.photos.photo;
-                    this.photos = responseString;
+                    const responseObject = response.data.photos.photo;
+                    this.photos = responseObject;
                 });
         },
         setModalImage(photo) {
             this.modalPhoto = photo;
+            flickr
+                .sendRequest('getSizes', { photo_id: photo.id })
+                .then(response => {
+                    const responseObject = response.data.sizes.size;
+                    const originalSizeIndex = Object.keys(responseObject).find(
+                        size => {
+                            return responseObject[size].label === 'Original';
+                        }
+                    );
+                    if (originalSizeIndex) {
+                        this.modalPhotoUrl =
+                            responseObject[originalSizeIndex].url;
+                    } else {
+                        this.modalPhotoUrl = '';
+                    }
+                });
             this.toggleModal();
         },
         toggleModal() {

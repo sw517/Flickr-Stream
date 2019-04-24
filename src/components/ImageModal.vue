@@ -1,11 +1,11 @@
 <template>
-    <div class="overlay" :class="{active: isActive}">
+    <div v-on:click.self="$emit('onModalClose')" @keyup.esc="$emit('onModalClose')" tabindex="0" class="overlay" :class="{active: isActive}">
         <div class="modal">
             <a @click.prevent="$emit('onModalClose')" class="modal__close">Close</a>
             <div class="modal__image-container">
                 <img :src="imgSrc" alt="photo.title" class="modal__image">
             </div>
-            <a :href="imgSrc" target="_blank" class="modal__view-link">View Original Image</a>
+            <a :href="photoUrl || imgSrc" target="_blank" class="modal__view-link">View Original Image</a>
             <div class="modal__details">
                 <div class="modal__title">{{ photo.title }}</div>
             </div>
@@ -35,6 +35,11 @@ export default {
                 };
             },
         },
+        photoUrl: {
+            type: String,
+            required: false,
+            default: '',
+        },
     },
     computed: {
         imgSrc() {
@@ -60,7 +65,8 @@ export default {
     color: #fff;
 
     &.active {
-        display: block;
+        display: flex;
+        justify-content: center;
 
         .modal {
             display: flex;
@@ -95,6 +101,7 @@ export default {
         overflow: auto;
         flex-grow: 1;
         margin-top: 1rem;
+        font-style: italic;
     }
 }
 </style>
